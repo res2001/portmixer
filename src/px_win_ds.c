@@ -51,10 +51,10 @@
 #include "px_mixer.h"
 #include "px_win_common.h"
 
-const GUID FAR DSPROPSETID_DirectSoundDevice = 
+const GUID FAR pxwin_DSPROPSETID_DirectSoundDevice =
 {0x84624f82, 0x25ec, 0x11d1, {0xa4, 0xd8, 0x0, 0xc0, 0x4f, 0xc2, 0x8a, 0xca}};
 
-const GUID FAR CLSID_DirectSoundPrivate = 
+const GUID FAR pxwin_CLSID_DirectSoundPrivate =
 {0x11ab3ec0, 0x25ec, 0x11d1, {0xa4, 0xd8, 0x0, 0xc0, 0x4f, 0xc2, 0x8a, 0xca}};
 
 typedef HRESULT (CALLBACK *GCO) (REFCLSID, REFIID, LPVOID *);
@@ -114,7 +114,7 @@ int OpenMixer_Win_DirectSound(px_mixer *Px, int index)
          break;
       }
    
-      hr = DllGetClassObject(&CLSID_DirectSoundPrivate,
+      hr = DllGetClassObject(&pxwin_CLSID_DirectSoundPrivate,
                              &IID_IClassFactory,
                              (void **)(&pcf));
       if (hr || pcf == NULL) {
@@ -137,7 +137,7 @@ int OpenMixer_Win_DirectSound(px_mixer *Px, int index)
          desc.DataFlow = DIRECTSOUNDDEVICE_DATAFLOW_CAPTURE;
 
          hr = IKsPropertySet_Get(pps,
-                                 &DSPROPSETID_DirectSoundDevice,
+                                 &pxwin_DSPROPSETID_DirectSoundDevice,
                                  DSPROPERTY_DIRECTSOUNDDEVICE_DESCRIPTION,
                                  NULL,
                                  0,
@@ -158,7 +158,7 @@ int OpenMixer_Win_DirectSound(px_mixer *Px, int index)
          desc.DataFlow = DIRECTSOUNDDEVICE_DATAFLOW_RENDER;
 
          hr = IKsPropertySet_Get(pps,
-                                 &DSPROPSETID_DirectSoundDevice,
+                                 &pxwin_DSPROPSETID_DirectSoundDevice,
                                  DSPROPERTY_DIRECTSOUNDDEVICE_DESCRIPTION,
                                  NULL,
                                  0,
