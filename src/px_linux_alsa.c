@@ -156,7 +156,6 @@ static int open_mixer(PxDev *dev, int card, int playback)
            elem = snd_mixer_elem_next(elem))
       {
          snd_mixer_elem_t *vol;
-         int ndx;
 
          if (playback) {
             if (snd_mixer_selem_has_common_volume(elem) ||
@@ -289,6 +288,7 @@ static int open_mixer(PxDev *dev, int card, int playback)
 
 int OpenMixer_Linux_ALSA(px_mixer *Px, int index)
 {
+    (void)index;
    PxInfo *info;
    int card;
 
@@ -390,8 +390,6 @@ static int cleanup(px_mixer *Px)
 
 static int generic_lookup(PxDev *dev, const char *generic)
 {
-   snd_mixer_selem_id_t *id;
-   snd_mixer_elem_t *elem;
    int i;
 
    if (dev == NULL) {
@@ -520,14 +518,16 @@ static void close_mixer(px_mixer *Px)
 
 static int get_num_mixers(px_mixer *Px)
 {
-   PxInfo *info = (PxInfo *)Px->info;
+    (void)Px;
+//   PxInfo *info = (PxInfo *)Px->info;
 
    return 1;
 }
 
 static const char *get_mixer_name(px_mixer *Px, int i)
 {
-   PxInfo *info = (PxInfo *)Px->info;
+    (void)Px; (void)i;
+//   PxInfo *info = (PxInfo *)Px->info;
 
    return "ALSA";
 }
@@ -667,8 +667,6 @@ static const char *get_input_source_name(px_mixer *Px, int i)
 static int get_current_input_source(px_mixer *Px)
 {
    PxInfo *info = (PxInfo *)Px->info;
-   snd_mixer_elem_t *elem;
-   int i;
 
    if (!info->capture.handle) {
       return -1;

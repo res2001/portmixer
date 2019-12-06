@@ -499,26 +499,31 @@ static int initialize(px_mixer *Px)
 
 static void close_mixer(px_mixer *Px)
 {
+    (void)Px;
    return;
 }
 
 static int get_num_mixers(px_mixer *Px)
 {
+    (void)Px;
    return 0;
 }
 
 static const char *get_mixer_name(px_mixer *Px, int i)
 {
+    (void)Px; (void)i;
    return NULL;
 }
 
 static PxVolume get_master_volume(px_mixer *Px)
 {
+    (void)Px;
    return 0.0;
 }
 
 static void set_master_volume(px_mixer *Px, PxVolume volume)
 {
+    (void)Px; (void)volume;
    return;
 }
 
@@ -528,16 +533,19 @@ static void set_master_volume(px_mixer *Px, PxVolume volume)
 
 static int supports_pcm_output_volume(px_mixer *Px)
 {
+    (void)Px;
    return FALSE;
 }
 
 static PxVolume get_pcm_output_volume(px_mixer *Px)
 {
+    (void)Px;
    return 0.0;
 }
 
 static void set_pcm_output_volume(px_mixer *Px, PxVolume volume)
 {
+    (void)Px; (void)volume;
    return;
 }
 
@@ -547,21 +555,25 @@ static void set_pcm_output_volume(px_mixer *Px, PxVolume volume)
 
 static int get_num_output_volumes(px_mixer *Px)
 {
+    (void)Px;
    return 0;
 }
 
 static const char *get_output_volume_name(px_mixer *Px, int i)
 {
+    (void)Px; (void)i;
    return NULL;
 }
 
 static PxVolume get_output_volume(px_mixer *Px, int i)
 {
+    (void)Px; (void)i;
    return 0.0;
 }
 
 static void set_output_volume(px_mixer *Px, int i, PxVolume volume)
 {
+    (void)Px; (void)i; (void)volume;
    return;
 }
 
@@ -571,21 +583,25 @@ static void set_output_volume(px_mixer *Px, int i, PxVolume volume)
 
 static int get_num_input_sources(px_mixer *Px)
 {
+    (void)Px;
    return 0;
 }
 
 static const char *get_input_source_name(px_mixer *Px, int i)
 {
+    (void)Px; (void)i;
    return NULL;
 }
 
 static int get_current_input_source(px_mixer *Px)
 {
+    (void)Px;
    return -1;
 }
 
 static void set_current_input_source(px_mixer *Px, int i)
 {
+    (void)Px; (void)i;
    return;
 }
 
@@ -595,11 +611,13 @@ static void set_current_input_source(px_mixer *Px, int i)
 
 static PxVolume get_input_volume(px_mixer *Px)
 {
+    (void)Px;
    return 0.0;
 }
 
 static void set_input_volume(px_mixer *Px, PxVolume volume)
 {
+    (void)Px; (void)volume;
    return;
 }
 
@@ -609,16 +627,19 @@ static void set_input_volume(px_mixer *Px, PxVolume volume)
 
 static int supports_output_balance(px_mixer *Px)
 {
+    (void)Px;
    return FALSE;
 }
 
 static PxBalance get_output_balance(px_mixer *Px)
 {
+    (void)Px;
    return 0.0;
 }
 
 static void set_output_balance(px_mixer *Px, PxBalance balance)
 {
+    (void)Px; (void)balance;
    return;
 }
 
@@ -628,15 +649,18 @@ static void set_output_balance(px_mixer *Px, PxBalance balance)
 
 static int supports_play_through(px_mixer *Px)
 {
+    (void)Px;
    return FALSE;
 }
 
 static PxVolume get_play_through(px_mixer *Px)
 {
+    (void)Px;
    return 0.0;
 }
 
 static void set_play_through(px_mixer *Px, PxVolume volume)
 {
+    (void)Px; (void)volume;
    return;
 }
