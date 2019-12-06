@@ -1,13 +1,15 @@
 # PortMixer from audacity: https://github.com/audacity/audacity/tree/master/lib-src/portmixer
-cmake_minimum_required(VERSION 3.4)
-set(TARGET portmixer)
-project(${TARGET} C)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_LIST_DIR})
+    project(portmixer C)
+endif()
+
 # Audacity version
 set(VERSION 2.3.2)
-set(TARGET_SOURCE ".")
+set(TARGET_SOURCE ${CMAKE_CURRENT_LIST_DIR})
 
 set(PA_DIR "${TARGET_SOURCE}/deps/portaudio" CACHE STRING "PortAudio with portmixer patch dir.")
-option(BUILD_TEST "Test build." OFF)
+option(BUILD_PX_TEST "Portmixer test build." OFF)
 
 if(NOT EXISTS "${PA_DIR}/CMakeLists.txt")
     message(FATAL_ERROR "PortAudio not found in ${PA_DIR}")
@@ -90,8 +92,8 @@ if(NOT PX_USE_WIN_DSOUND AND NOT PX_USE_WIN_MME AND NOT PX_USE_WIN_WASAPI AND NO
     message(FATAL_ERROR "No supported mixer interfaces detected")
 endif()
 
-add_library(${TARGET} STATIC ${SOURCE_FILES})
-target_compile_definitions(${TARGET} PRIVATE
+add_library(portmixer STATIC ${SOURCE_FILES})
+target_compile_definitions(portmixer PRIVATE
         $<$<BOOL:${PX_USE_WIN_DSOUND}>:PX_USE_WIN_DSOUND>
         $<$<BOOL:${PX_USE_WIN_MME}>:PX_USE_WIN_MME>
         $<$<BOOL:${PX_USE_WIN_WASAPI}>:PX_USE_WIN_WASAPI>
@@ -99,20 +101,22 @@ target_compile_definitions(${TARGET} PRIVATE
         $<$<BOOL:${PX_USE_UNIX_OSS}>:PX_USE_UNIX_OSS>
         $<$<BOOL:${PX_USE_MAC_COREAUDIO}>:PX_USE_MAC_COREAUDIO>
         )
-target_include_directories(${TARGET} PUBLIC "${TARGET_SOURCE}/include")
-target_link_libraries(${TARGET} PUBLIC portaudio_static)
-#target_sources(${TARGET} PUBLIC ${HEADER_PUBLIC})
-#set_target_properties(${TARGET} PROPERTIES OSX_ARCHITECTURES "")
-install(TARGETS ${TARGET}
-  EXPORT portmixer-targets
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  PUBLIC_HEADER DESTINATION include
-  )
-install(FILES LICENSE.txt DESTINATION share/doc/portmixer)
+target_include_directories(portmixer PUBLIC "${TARGET_SOURCE}/include")
+target_link_libraries(portmixer PUBLIC portaudio_static)
+target_sources(portmixer PUBLIC ${HEADER_PUBLIC})
+#set_target_properties(portmixer PROPERTIES OSX_ARCHITECTURES "")
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_LIST_DIR})
+    install(TARGETS portmixer
+      EXPORT portmixer-targets
+      RUNTIME DESTINATION bin
+      LIBRARY DESTINATION lib
+      ARCHIVE DESTINATION lib
+      PUBLIC_HEADER DESTINATION include
+      )
+    install(FILES LICENSE.txt DESTINATION share/doc/portmixer)
+endif()
 
-if(BUILD_TEST)
+if(BUILD_PX_TEST)
     add_executable(px_test ${TARGET_SOURCE}/px_tests/px_test.c)
     target_link_libraries(px_test PRIVATE ${TARGET})
     target_include_directories(${TARGET} PRIVATE "${TARGET_SOURCE}/include")
