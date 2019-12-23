@@ -192,28 +192,27 @@ int main(int argc, char **argv)
         }
         const PxVolume vol = rand() / (float)RAND_MAX;
 
-       const int num_mixers = Px_GetNumMixers(main_mixer);
-       if (num_mixers == 0)
-       {
-           print_mixer_info(main_mixer, in_params != NULL, out_params != NULL);
-           set_mixer_volume(main_mixer, vol, in_params != NULL, out_params != NULL);
-       } else {
-           printf("Number of mixers: %d\n", num_mixers);
-           for (int i = 0; i < num_mixers; i++)
-           {
-               printf("Mixer %d: %s\n", i, Px_GetMixerName(stream, i));
-               PxMixer *mixer = Px_OpenMixer(stream, i);
-               if (!mixer) {
-                       printf("Px_OpenMixer() error: Could not open mixer %d!\n", i);
-                       continue;
-               }
-               print_mixer_info(mixer, in_params != NULL, out_params != NULL);
-               set_mixer_volume(main_mixer, vol, in_params != NULL, out_params != NULL);
-               Px_CloseMixer(mixer);
-           }
-       }
-       Px_CloseMixer(main_mixer);
-       Pa_CloseStream(stream);
+        print_mixer_info(main_mixer, in_params != NULL, out_params != NULL);
+        set_mixer_volume(main_mixer, vol, in_params != NULL, out_params != NULL);
+        const int num_mixers = Px_GetNumMixers(main_mixer);
+        if (num_mixers > 0)
+        {
+            printf("Number of mixers: %d\n", num_mixers);
+            for (int i = 0; i < num_mixers; i++)
+            {
+                printf("Mixer %d: %s\n", i, Px_GetMixerName(stream, i));
+                PxMixer *mixer = Px_OpenMixer(stream, i);
+                if (!mixer) {
+                    printf("Px_OpenMixer() error: Could not open mixer %d!\n", i);
+                    continue;
+                }
+                print_mixer_info(mixer, in_params != NULL, out_params != NULL);
+                set_mixer_volume(mixer, vol, in_params != NULL, out_params != NULL);
+                Px_CloseMixer(mixer);
+            }
+        }
+        Px_CloseMixer(main_mixer);
+        Pa_CloseStream(stream);
     }
     Pa_Terminate();
     return 0;
